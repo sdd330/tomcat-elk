@@ -10,15 +10,19 @@ MAINTAINER yang.leijun@gmail.com
 
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
-ENV ES_PKG_NAME elasticsearch-1.4.2
-ENV KIB_PKG_NAME kibana-4.0.0-beta3
+ENV ES_PKG_NAME elasticsearch-1.3.7
+ENV KIB_PKG_NAME kibana-3.1.2
 ENV LGS_PKG_NAME logstash-1.4.2
 
 # Install supervisor.
 RUN apt-get update && \
 	apt-get install -y supervisor && \
+	apt-get install -y nginx && \
+	rm -rf /var/lib/apt/lists/* && \
 	mkdir -p /var/log/supervisor && \
-	mkdir -p /etc/supervisor/conf.d
+	mkdir -p /etc/supervisor/conf.d && \
+	echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
+	sed -i -e 's/www-data/root/g' /etc/nginx/nginx.conf
 
 # Install ElasticSearch.
 RUN \
@@ -35,6 +39,10 @@ RUN \
   tar xvzf $KIB_PKG_NAME.tar.gz && \
   rm -f $KIB_PKG_NAME.tar.gz && \
   mv /$KIB_PKG_NAME /kibana
+  
+# Deploy kibana to Nginx
+RUN rm -rf /var/www/html/* && \
+	cp -r /kibana/* /var/www/html
 	
 # Install Logstash.
 RUN \
@@ -46,10 +54,6 @@ RUN \
 
 # Make image information and configuration self-contained
 ADD . /app
-
-# Install elasticsearch Head and Marvel plugins.
-RUN /elasticsearch/bin/plugin -i elasticsearch/marvel/latest
-RUN /elasticsearch/bin/plugin -install mobz/elasticsearch-head
 
 VOLUME [ "/usr/local/tomcat/webapps" ]
 
