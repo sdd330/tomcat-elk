@@ -10,8 +10,8 @@ MAINTAINER yang.leijun@gmail.com
 
 # Set Environment Variables
 ENV DEBIAN_FRONTEND noninteractive
-ENV ES_PKG_NAME elasticsearch-1.3.7
-ENV KIB_PKG_NAME kibana-3.1.2
+ENV ES_PKG_NAME elasticsearch-1.4.4
+ENV KIB_PKG_NAME kibana-4.0.1
 ENV LGS_PKG_NAME logstash-1.4.2
 
 # Install supervisor.
