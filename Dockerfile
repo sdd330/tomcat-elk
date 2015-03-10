@@ -1,7 +1,7 @@
 # Dockerfile creating tomcat server with ELK (Elasticsearch/Logstash/Kibana) services
 
 # Help:
-# Default command: docker run -d --name tomcat-elk-server -p 9200:9200 -p 80:80 -p 8080:8080 sdd330/tomcat-elk
+# Default command: docker run -d --name tomcat-elk-server -p 9200:9200 -p 5601:5601 -p 8080:8080 sdd330/tomcat-elk
 # Default command will start Tomcat (Monitored by ELK) within a docker
 # To login to bash: docker exec -it tomcat-elk-server bash
 
@@ -39,10 +39,6 @@ RUN \
   tar xvzf $KIB_PKG_NAME.tar.gz && \
   rm -f $KIB_PKG_NAME.tar.gz && \
   mv /$KIB_PKG_NAME /kibana
-  
-# Deploy kibana to Nginx
-RUN rm -rf /var/www/html/* && \
-	cp -r /kibana/* /var/www/html
 	
 # Install Logstash.
 RUN \
@@ -61,4 +57,4 @@ VOLUME [ "/usr/local/tomcat/webapps" ]
 CMD ["supervisord", "-c", "/app/config/supervisord.conf"]
 
 # Expose ports.
-EXPOSE 9200 80 8080
+EXPOSE 9200 5601 8080

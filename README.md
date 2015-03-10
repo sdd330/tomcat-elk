@@ -7,11 +7,11 @@ Usage
 
 To start an instance:
 
-	docker run -d --name tomcat-elk-server -p 9200:9200 -p 80:80 -p 8080:8080 sdd330/tomcat-elk
+	docker run -d --name tomcat-elk-server -p 9200:9200 -p 5601:5601 -p 8080:8080 sdd330/tomcat-elk
 
 To start with webapp storage on host:
 
-	docker run -d --name tomcat-elk-server -p 9200:9200 -p 80:80 -p 8080:8080 -v <webapp-dir>:/usr/local/tomcat/webapps sdd330/tomcat-elk
+	docker run -d --name tomcat-elk-server -p 9200:9200 -p 5601:5601 -p 8080:8080 -v <webapp-dir>:/usr/local/tomcat/webapps sdd330/tomcat-elk
 
 To login to bash:
 	
